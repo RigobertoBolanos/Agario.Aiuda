@@ -19,11 +19,12 @@ public class HiloDespliegueAppWeb extends Thread {
 	
 	public void run() {
 		
-		while(server.webService) {
+		while(server.isWebService()) {
 			System.out.println(":::Web Server Started:::");
 			ServerSocket serverSocket = server.getServerSocketWebService();
 			try {
 				Socket cliente = serverSocket.accept();
+				System.out.println("Lee");
 				HiloClientHandler hilo = new HiloClientHandler(cliente, server);
 				hilo.start();	
 				

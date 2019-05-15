@@ -52,7 +52,7 @@ public class HiloClientHandler extends Thread{
 				{
 					StringBuilder responseBuffer =  new StringBuilder();
 					String str="";
-					BufferedReader buf = new BufferedReader(new FileReader("web/AppWeb/javascr.html"));			
+					BufferedReader buf = new BufferedReader(new FileReader("web/form.html"));			
 					while ((str = buf.readLine()) != null) {
 						responseBuffer.append(str);
 				    }
@@ -60,12 +60,17 @@ public class HiloClientHandler extends Thread{
 				    buf.close();
 				}
 				//permite obtener el dato ingresado en el submit
-				if(httpQueryString.contains("/?ced="))
+				if(httpQueryString.contains("/?email="))
 				{
+					
+					
 					System.out.println("Get method processed");
-					String[] response =  httpQueryString.split("=");
-					String mensajeObtenido = server.pedirDatosAlServerBD(response[1]);
-					String[] lista = mensajeObtenido.split("\n");
+					String[] response =  httpQueryString.split("&");
+					String correo=response[0].split("=")[1];
+					String password=response[1].split("=")[1];
+					String respuesta[]=server.loginQuery(correo, password);
+					//String mensajeObtenido = server.pedirDatosAlServerBD(response[1]);
+					//String[] lista = mensajeObtenido.split("\n");
 					StringBuilder responseBuffer =  new StringBuilder();
 					responseBuffer
 					.append("<html>")
@@ -75,23 +80,23 @@ public class HiloClientHandler extends Thread{
 					.append("	background-image: url(\"http://www.mascotahogar.com/Imagenes/wallpaper-de-un-caballo-blanco.jpg\");")
 					.append("}")
 					.append("</style>")
-					.append("<title>Informacion Cedula Correspondiente</title>")
 					.append("</head>")
 					.append("<body>")
-					.append("<h1>Listado de Carreras Realizadas</h1>")
-					.append("<table>")
-					.append("<tr>")
-					.append("<td><strong>CEDULA</strong></td>")
-					.append("<td><strong>CABALLO</strong></td>")
-					.append("<td><strong>MONTO $</strong></td>")
-					.append("<td><strong>GANO?</strong></td>");
-					agregarlista(lista,responseBuffer, response[1].trim());
-					responseBuffer.append("<body>")
-					.append("<table>")
+					.append("<h1>Bienvenido "+respuesta[0]+" tu correo es: "+correo+"</h1>")
+//					.append("<table>")
+//					.append("<tr>")
+//					.append("<td><strong>CEDULA</strong></td>")
+//					.append("<td><strong>CABALLO</strong></td>")
+//					.append("<td><strong>MONTO $</strong></td>")
+//					.append("<td><strong>GANO?</strong></td>");
+//					//agregarlista(lista,responseBuffer, response[1].trim());
+//					responseBuffer.append("<body>")
+//					.append("<table>")
 					.append("<body>")
 					.append("</html>");
 					
-					sendResponse(socket, 200, responseBuffer.toString());		
+					sendResponse(socket, 200, responseBuffer.toString());
+						
 				    
 				}
 			}

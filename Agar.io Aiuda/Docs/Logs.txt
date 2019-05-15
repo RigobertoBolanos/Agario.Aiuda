@@ -7,3 +7,4 @@ lola,lola,lola
 quimbo,quimbo,quimbo
 Rokimen,Rokimen,Rokimen
 kuki,kuki,kuki
+Rokimen,rokimen.com,rokipass
